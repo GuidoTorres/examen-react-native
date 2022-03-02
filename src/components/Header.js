@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import Search from "./Search";
-import { FaSearch, FaArrowLeft, FaShoppingCart } from "react-icons/fa";
 import { useNavigation } from "@react-navigation/core";
+import Icon from "react-native-vector-icons/AntDesign";
 const Header = ({ setCocktails, cart }) => {
   const navigation = useNavigation();
   return (
@@ -14,7 +14,7 @@ const Header = ({ setCocktails, cart }) => {
           style={styles.cart}
           onPress={() => navigation.navigate("Cart")}
         >
-          <FaShoppingCart />
+          <Icon name="shoppingcart" size={20}></Icon>
         </TouchableOpacity>
       </View>
     </View>

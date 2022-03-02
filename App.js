@@ -7,10 +7,16 @@ import { useState } from "react";
 
 export default function App() {
   const [cart, setCart] = useState([]);
+  const [selectedDrink, setSelectedDrink] = useState([]);
 
   return (
     <View style={styles.container}>
-      <HomeStack cart={cart} setCart={setCart}></HomeStack>
+      <HomeStack
+        cart={cart}
+        setCart={setCart}
+        selectedDrink={selectedDrink}
+        setSelectedDrink={setSelectedDrink}
+      ></HomeStack>
     </View>
   );
 }

@@ -6,7 +6,7 @@ import Cart from "../screens/Cart";
 
 const Stack = createNativeStackNavigator();
 
-const HomeStack = ({ cart, setCart }) => {
+const HomeStack = ({ cart, setCart, selectedDrink, setSelectedDrink }) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -15,15 +15,22 @@ const HomeStack = ({ cart, setCart }) => {
         }}
       >
         <Stack.Screen name="Home">
-          {(props) => <Home {...props} cart={cart} setCart={setCart} />}
+          {(props) => (
+            <Home
+              {...props}
+              cart={cart}
+              setCart={setCart}
+              setSelectedDrink={setSelectedDrink}
+            />
+          )}
         </Stack.Screen>
 
         <Stack.Screen name="Detail">
-          {(props) => <DetailInfo {...props} />}
+          {(props) => <DetailInfo {...props} selectedDrink={selectedDrink} />}
         </Stack.Screen>
 
         <Stack.Screen name="Cart">
-          {(props) => <Cart {...props} cart={cart} />}
+          {(props) => <Cart {...props} cart={cart} setCart={setCart}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

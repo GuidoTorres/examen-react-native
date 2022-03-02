@@ -1,22 +1,27 @@
 import { useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { FaArrowLeft } from "react-icons/fa";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+} from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import Icon from "react-native-vector-icons/AntDesign";
 
-const HeaderBack = ({ cart }) => {
+const HeaderBack = ({ cart, title }) => {
   const navigation = useNavigation();
-
-  console.log(cart);
 
   return (
     <View style={styles.header_container}>
       <View style={styles.header_left}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <FaArrowLeft />
+          <Icon name="arrowleft" size={20}></Icon>
         </TouchableOpacity>
       </View>
       <View style={styles.header_center}>
-        <Text style={styles.header_title}>Shopping Cart</Text>
+        <Text style={styles.header_title}>{title}</Text>
       </View>
       <View style={styles.header_right}></View>
     </View>

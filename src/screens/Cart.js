@@ -1,22 +1,30 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+} from "react-native";
 import CartDetail from "../components/CartDetail";
 import CartTotal from "../components/CartTotal";
 import HeaderBack from "../components/HeaderBack";
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, setCart }) => {
   return (
-    <View style={styles.cart_container}>
-      <HeaderBack cart={cart} />
-      <CartDetail cart={cart} />
+    <SafeAreaView style={styles.cart_container}>
+      <HeaderBack cart={cart} title={"Shopping Cart"} />
+      <CartDetail cart={cart} setCart={setCart} />
       <CartTotal cart={cart} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   cart_container: {
     backgroundColor: "white",
-    height: "100vh",
+    height: "100%",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });
 

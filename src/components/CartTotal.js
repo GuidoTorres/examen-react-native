@@ -11,11 +11,13 @@ const CartTotal = ({ cart }) => {
             </View>
 
             <View style={styles.cart_total_price}>
-              $
-              {cart &&
-                cart.reduce(function (sum, item) {
-                  return (sum = sum + item.price);
-                }, 0)}
+              <Text>
+                $
+                {cart &&
+                  cart.reduce(function (sum, item) {
+                    return (sum = sum + item.price);
+                  }, 0)}
+              </Text>
             </View>
           </View>
           <View style={styles.cart_button_container}>
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   cart_button: {
-    borderRadius: "10px",
+    borderRadius: 10,
   },
 });
 

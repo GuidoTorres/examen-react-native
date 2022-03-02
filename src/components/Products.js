@@ -1,53 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
   Image,
   Text,
   TouchableOpacity,
-  Button,
+  Animated,
+  FlatList,
+  Dimensions,
 } from "react-native";
-import { FaSearch, FaArrowLeft, FaShoppingCart } from "react-icons/fa";
+import Icon from "react-native-vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/core";
 
-const Products = ({ cocktails, cart, setCart }) => {
+const Products = ({ cocktails, cart, setCart, setSelectedDrink }) => {
+  const navigation = useNavigation();
+
+  const opacity = useRef(new Animated.Value(0)).current;
+  console.log(cocktails);
+
   function renderImages() {
+    function selectedProduct(e) {
+      setSelectedDrink(e);
+
+      navigation.navigate("Detail");
+    }
+
     return (
-      cocktails.drinks &&
-      cocktails.drinks.map((item, i) => {
-        return (
-          <TouchableOpacity key={item.idDrink}>
-            <View>
-              <Image
-                key={item.idDrink}
-                style={styles.image}
-                source={item.strDrinkThumb}
-              ></Image>
-              <View style={styles.price_flex}>
-                <View style={styles.price_flex_izquierda}>
-                  <Text
-                    style={styles.card_text}
-                    numberOfLines={1}
-                    ellipsizeMode="head"
-                  >
-                    {item.strDrink}
-                  </Text>
-                  <Text style={styles.card_text1}>
-                    $150
-                  </Text>
+      <FlatList
+        contentContainerStyle={{
+          display: "flex",
+
+          paddingHorizontal: 25,
+          paddingBottom: 180,
+        }}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.idDrink}
+        data={cocktails}
+        numColumns={2}
+        renderItem={(item) => (
+          console.log(item.item),
+          (
+            <TouchableOpacity
+              onPress={(e) => selectedProduct(item.item)}
+              style={styles.card_container}
+            >
+              <View>
+                <View style={styles.image_container}>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: item.item.strDrinkThumb }}
+                  ></Image>
                 </View>
-                <View style={styles.price_flex_derecha}>
-                  <TouchableOpacity
-                    style={styles.addTo_cart}
-                    onPress={() => addToCart(item)}
-                  >
-                    <FaShoppingCart />
-                  </TouchableOpacity>
+                <View style={styles.price_flex}>
+                  <View style={styles.price_flex_izquierda}>
+                    <Text
+                      style={styles.card_text}
+                      numberOfLines={1}
+                      ellipsizeMode="head"
+                    >
+                      {item.item.strDrink}
+                    </Text>
+                    <Text style={styles.card_text1}>${item.item.price}</Text>
+                  </View>
+                  <View style={styles.price_flex_derecha}>
+                    <TouchableOpacity
+                      style={styles.addTo_cart}
+                      onPress={() => addToCart(item.item)}
+                    >
+                      <Icon name="shoppingcart" size={18}></Icon>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        );
-      })
+            </TouchableOpacity>
+          )
+        )}
+      ></FlatList>
     );
   }
 
@@ -57,8 +85,8 @@ const Products = ({ cocktails, cart, setCart }) => {
       {
         img: data.strDrinkThumb,
         name: data.strDrink,
-        // price: Math.floor(Math.random() * (30 - 10) + 10),
-        price: 150,
+        price: data.price,
+        count: 1,
       },
     ]);
   }
@@ -67,25 +95,23 @@ const Products = ({ cocktails, cart, setCart }) => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    width: "100%",
-    height: "100%",
+  card_container: {
+    width: "50%",
+    marginTop: 10,
+  },
+  image_container: {
     display: "flex",
     justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: 20,
-    gap: 15,
-    padding: 25,
+    alignItems: "center",
   },
   image: {
-    width: 160,
-    height: 220,
+    width: "96%",
+    height: 225,
     borderRadius: 8,
-    boxShadow: "2px 8px 10px lightgrey",
+    // boxShadow: "2px 8px 10px grey",
   },
   card_text: {
-    marginTop: 5,
+    marginTop: 15,
     fontWeight: "bold",
     color: "#111111",
 
@@ -108,7 +134,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   addTo_cart: {
-    // border: "1px solid black",
     height: 35,
     width: 35,
     borderRadius: 50,
